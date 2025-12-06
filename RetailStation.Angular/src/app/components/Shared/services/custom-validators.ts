@@ -259,7 +259,8 @@ export enum RegexType {
   numericAllowDash,
   numeric,
   currency,
-  addressLine
+  addressLine,
+  phoneNumber
 
 }
 export const regexList: RegexModel[] = [
@@ -338,7 +339,12 @@ export const regexList: RegexModel[] = [
     pattern: /^[a-zA-Z\s]+$/, // Matches only text (letters and spaces)
     message: "Only text characters are allowed.",
     type: RegexType.text
-  }
+  },
+   {
+    pattern: /^[0-9+]+$/, // Matches only numbers
+    message: "Only numbers and + are allowed.",
+    type: RegexType.phoneNumber
+  },
 ];
 
 // import { AbstractControl, ValidatorFn, Validators } from "@angular/forms";

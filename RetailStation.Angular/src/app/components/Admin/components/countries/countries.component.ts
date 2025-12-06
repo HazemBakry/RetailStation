@@ -7,6 +7,7 @@ import { PagedResponseModel } from 'src/app/components/Shared/models/PagedRespon
 import { FilterItem } from 'src/app/components/Shared/models/FilterModel';
 import { CountryModel } from '../../models/CountryModel';
 import { AdminService } from '../../services/Admin.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-countries',
@@ -72,6 +73,7 @@ export class CountriesComponent implements OnInit {
     countryId: '',
     nameAR: '',
     nameEN: '',
+    countryCode: '',
     isActive: '',
 
   };
@@ -93,6 +95,7 @@ export class CountriesComponent implements OnInit {
       countryId: [null],
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
+      countryCode: [null, [Validators.required,CustomValidators.regexPattern(RegexType.phoneNumber)]],
       isActive: [true, [Validators.required]],
     });
     this.formGroup.valueChanges.subscribe((data) => {
@@ -179,6 +182,7 @@ export class CountriesComponent implements OnInit {
       countryId: CountryModel.countryId,
       nameAR: CountryModel.nameAR,
       nameEN: CountryModel.nameEN,
+      countryCode: CountryModel.countryCode,
       isActive: CountryModel.isActive,
     });
   }

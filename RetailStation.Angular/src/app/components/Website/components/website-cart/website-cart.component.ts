@@ -57,7 +57,8 @@ export class WebsiteCartComponent implements OnInit {
     city: '',
     cityId: null,
     fullAddress: '',
-    notes: ''
+    notes: '',
+    countryCode: ''
   };
 
   // Step 3 Data model
@@ -329,6 +330,7 @@ export class WebsiteCartComponent implements OnInit {
   onCountryChange(value) {
     this.citiesSelectorData = [];
     this.shippingData.cityId = null;
+    this.shippingData.countryCode = this.countriesSelectorData.find(c => c.value == value)?.code;
     if (value)
       this.loadCitiesByCountryId(value);
   }
@@ -370,6 +372,7 @@ export class WebsiteCartComponent implements OnInit {
     this.orderModel.notes = this.shippingData.notes;
     this.orderModel.paymentTypeId = this.paymentData.paymentMethodId;
     this.orderModel.phoneNumber = this.shippingData.phoneNumber;
+    this.orderModel.countryCode = this.shippingData.countryCode;
   }
 
 
@@ -410,6 +413,14 @@ export class WebsiteCartComponent implements OnInit {
         this.calculateCartSummary();
 
 
+  }
+  phoneErrorMessage: string = '';
+  phoneInputKeyPress(event: KeyboardEvent) {
+    const isNumberKey = this.sharedService.isNumberKey(event.key);
+    this.phoneErrorMessage = isNumberKey ? '' : 'يرجى ادخال رقم هاتف صحيح';
+    if (!isNumberKey) {
+      event.preventDefault();
+    }
   }
 }
 

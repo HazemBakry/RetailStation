@@ -104,6 +104,7 @@ export interface CreateOrderModel extends CreatorModel {
     fullAddress: string;
     receiverName: string;
     phoneNumber: string;
+    countryCode: string;
 
     items: CreateOrderItemModel[];
 }

@@ -19,6 +19,8 @@ namespace RetailStation.Entities.Models.SystemAdmin
 
         [Required, MaxLength(100)]
         public string NameEN { get; set; }
+        [MaxLength(10)]
+        public string CountryCode { get; set; }
 
         public bool IsActive { get; set; } = true;
     }

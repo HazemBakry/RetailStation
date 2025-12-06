@@ -146,6 +146,7 @@ namespace RetailStation.Service.Website
                     FullAddress = model.FullAddress,
                     ReceiverName = model.ReceiverName,
                     PhoneNumber = model.PhoneNumber,
+                    CountryCode = model.CountryCode,
                     CreatedBy = UserId,
                     CreatedDate = now,
                 };
@@ -154,7 +155,7 @@ namespace RetailStation.Service.Website
 
                 var requestedItemIds = model.Items.Select(x => x.MerchantItemId).ToList();
                 var merchantItems = Context.MerchantItems
-                    .Where(x => requestedItemIds.Contains((int)x.MerchantItemId))
+                    .Where(x => requestedItemIds.Contains((int)x.MerchantItemId)&&x.IsActive)
                     .AsNoTracking()
                     .ToList();
 
@@ -276,7 +277,7 @@ namespace RetailStation.Service.Website
                 {
                     Message = "Orders created successfully.",
                     Id = tbl_ord.OrderId,
-                    Number = tbl_ord.OrderNumber.ToString(),
+                    Number = tbl_ord.SerialNumber.ToString(),
                     IsSuccess = true
                 };
             }

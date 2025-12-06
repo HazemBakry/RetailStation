@@ -34,6 +34,7 @@ namespace RetailStation.Entities.DTOs.Website
         public string FullAddress { get; set; }
         public string ReceiverName { get; set; }
         public string PhoneNumber { get; set; }
+        public string CountryCode { get; set; }
 
 
         public List<CreateOrderItemModel> Items { get; set; }

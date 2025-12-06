@@ -1,9 +1,11 @@
 <app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
 
 <div class="table-card border radius-10 overflow-hidden shadow-sm">
-    <div class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-2 table-card-title bg-light">
         <div class="d-flex align-items-center gap-2 p-2">
-            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
+            <app-erp-filters [FilterList]="filterList" [showSearchText]="true" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'بحث  ...'"></app-erp-filters>
         </div>
         <div class="d-flex justify-content-between align-items-center gap-2 p-2">
             <div class="d-flex flex-wrap gap-2">
@@ -23,8 +25,9 @@
             <table class="table table-card-table table-borderless table-hover bg-transparent m-0">
                 <thead>
                     <tr>
-                        <th>اسم الوحدة (AR)</th>
-                        <th>اسم الوحدة (EN)</th>
+                        <th>اسم الدولة (AR)</th>
+                        <th>اسم الدولة (EN)</th>
+                        <th>كود الدولة </th>
                         <th>نشط</th>
                         <th class="text-center"></th>
                     </tr>
@@ -33,15 +36,20 @@
                     <tr *ngFor="let item of pagedResponseModel.results">
                         <td>{{item.nameAR}}</td>
                         <td>{{item.nameEN}}</td>
+                        <td>{{item.countryCode}}</td>
                         <td>{{item.isActive}}</td>
                         <td class="text-center">
                             <div class="d-flex align-items-center justify-content-center">
-                                <button class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2" (click)="openAddModal(addNewModal,item)">
+                                <button
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2 me-2"
+                                    (click)="openAddModal(addNewModal,item)">
                                     <i class="uil uil-pen"></i>
                                     <span>تعديل</span>
                                 </button>
 
-                                <button class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2" (click)="openDeleteModal(deleteModal,item.countryId)">
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteModal,item.countryId)">
                                     <i class="uil uil-pen"></i>
                                     <span>حذف</span>
                                 </button>
@@ -50,7 +58,8 @@
                     </tr>
                     <tr *ngIf="!pagedResponseModel.results.length">
                         <td colspan="6" class="text-right">
-                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader" [showLoader]="showLoader"></app-empty-data>
+                            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length&&!showLoader"
+                                [showLoader]="showLoader"></app-empty-data>
                         </td>
                     </tr>
                 </tbody>
@@ -96,7 +105,8 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (AR)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameAR" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameAR"
+                                autocomplete="off" />
 
                             <div *ngIf="formErrors.nameAR" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameAR}}
@@ -106,10 +116,22 @@
                             <label class="form-label d-flex align-items-center gap-2">
                                 الاسم (EN)
                             </label>
-                            <input type="text" class="form-control nw-form-input" formControlName="nameEN" autocomplete="off" />
+                            <input type="text" class="form-control nw-form-input" formControlName="nameEN"
+                                autocomplete="off" />
 
                             <div *ngIf="formErrors.nameEN" class="text-danger  font-small-3 m-03">
                                 {{formErrors.nameEN}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                كود الدولة
+                            </label>
+                            <input type="text" class="form-control nw-form-input" formControlName="countryCode"
+                                autocomplete="off" />
+
+                            <div *ngIf="formErrors.countryCode" class="text-danger  font-small-3 m-03">
+                                {{formErrors.countryCode}}
                             </div>
                         </div>
 
@@ -134,12 +156,14 @@
         </div>
     </div>
     <div class="modal-footer flex-nowrap gap-2">
-        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button" class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+        <button [disabled]="showAddLoader" (click)="saveRecord()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
             <i class="uil uil-save fs-3"></i>
             <span>{{isUpdate?'تعديل':'أضافة'}}</span>
         </button>
 
-        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="formGroup?.reset();modal.close()">
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2"
+            (click)="formGroup?.reset();modal.close()">
             <i class="uil uil-times-circle fs-3"></i>
             <span>الغاء</span>
         </button>
@@ -155,7 +179,8 @@
         <p class="fs-5 m-0">هل انت متأكد من الحذف ؟</p>
     </div>
     <div class="modal-footer justify-content-start">
-        <button type="button" [disabled]="showAddLoader" class="btn btn-success" (click)="modal.close('Save click');deleteCountry()">
+        <button type="button" [disabled]="showAddLoader" class="btn btn-success"
+            (click)="modal.close('Save click');deleteCountry()">
             <i class="fas fa-check"></i>
             <span class="ms-2">نعم</span>
         </button>

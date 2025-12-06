@@ -173,6 +173,7 @@ namespace RetailStation.Service.Shared
             {
                 Id = b.CountryId,
                 Name = b.NameAR,
+                Code = b.CountryCode,
             }).ToList();
             return results;
         }

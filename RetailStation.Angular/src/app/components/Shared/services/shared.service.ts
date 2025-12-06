@@ -40,7 +40,12 @@ export class SharedService {
 
     }
   }
-
+  isNumberKey(key: any): boolean {
+    let patt = /^([0-9\+])$/;
+    let result = patt.test(key);
+    return result;
+  }
+  
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);

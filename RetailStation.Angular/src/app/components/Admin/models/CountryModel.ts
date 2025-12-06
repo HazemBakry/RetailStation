@@ -3,6 +3,7 @@ export interface CountryModel extends CreatorModel {
   countryId: number;
   nameAR: string;
   nameEN: string;
+  countryCode: string;
   isActive: boolean;
 }
 

@@ -13,9 +13,8 @@ namespace RetailStation.Entities.DTOs.SystemSettings
         public int? CountryId { get; set; }
 
         public string NameAR { get; set; }
-
-
         public string NameEN { get; set; }
+        public string CountryCode { get; set; }
 
         public bool IsActive { get; set; } = true;
         public int? TotalCount { get; set; }

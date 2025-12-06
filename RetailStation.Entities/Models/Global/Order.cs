@@ -32,6 +32,8 @@ namespace RetailStation.Entities.Models.Global
         public string FullAddress { get; set; }
         public string ReceiverName { get; set; }
         public string PhoneNumber { get; set; }
+        public string CountryCode { get; set; }
+
         public int PaymentTypeId { get; set; }
     }
 }

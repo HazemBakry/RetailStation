@@ -319,6 +319,7 @@ namespace RetailStation.Service.SystemSetting
                 {
                     NameAR = model.NameAR,
                     NameEN = model.NameEN,
+                    CountryCode = model.CountryCode,
                     IsActive = model.IsActive,
                     CreatedBy = string.Empty,
                     CreatedDate = DateTime.Now,
@@ -348,6 +349,7 @@ namespace RetailStation.Service.SystemSetting
             {
                 Item.NameAR = model.NameAR;
                 Item.NameEN = model.NameEN;
+                Item.CountryCode = model.CountryCode;
                 Item.IsActive = model.IsActive;
                 Item.ModifiedBy = string.Empty;
 
@@ -400,6 +402,7 @@ namespace RetailStation.Service.SystemSetting
                         {
                             NameEN = country.NameEN,
                             NameAR = country.NameAR,
+                            CountryCode = country.CountryCode,
                             CountryId = country.CountryId,
                             IsActive = country.IsActive,
                             CreatedBy = country.CreatedBy,
