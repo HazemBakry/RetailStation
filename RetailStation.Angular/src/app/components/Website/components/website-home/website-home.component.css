@@ -369,7 +369,7 @@
 }
 
 .main-header {
-    display: flex;
+    /* display: flex; */
     gap: 12px;
     padding: 10px 20px;
     background: #fafafa;

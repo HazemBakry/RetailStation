@@ -24,10 +24,13 @@ export class WebsiteSearchComponent implements OnInit {
   searchResults: SearchAutoCompleteModel[] = [];
   catId: number;
   cityId: number;
+  countryId: number;
   systemUrl: string = environment.systemUrl;
   categories: ItemCategoryModel[] = [];
   selectedCategory: ItemCategoryModel;
   selectedCity: GeneralSelectorModel;
+  selectedCountry: GeneralSelectorModel;
+  countriesSelectorData: GeneralSelectorModel[] = [];
   citiesSelectorData: GeneralSelectorModel[] = [];
 
   constructor(
@@ -42,10 +45,12 @@ export class WebsiteSearchComponent implements OnInit {
     this.acRoute.queryParamMap.subscribe(params => {
       this.searchText = params.get('q') || '';
       this.catId = params.get('catId') ? Number(params.get('catId')) : null;
+      this.countryId = params.get('countryId') ? Number(params.get('countryId')) : null;
       this.cityId = params.get('cityId') ? Number(params.get('cityId')) : null;
     });
     this.getItemCategories();
-    this.GetCitiesSelector();
+    this.GetCountriesSelector();
+    this.GetCitiesSelector(this.countryId);
 
   }
 
@@ -64,6 +69,7 @@ export class WebsiteSearchComponent implements OnInit {
 
   onCategorySelected(cat) {
     this.selectedCategory = cat;
+    this.search();
   }
 
   search() {
@@ -71,11 +77,13 @@ export class WebsiteSearchComponent implements OnInit {
     let queryParams: any = {};
     if (this.searchText) {
       queryParams.q = this.searchText;
-      if (this.selectedCategory)
-        queryParams.catId = this.selectedCategory.itemCategoryId;
-      if (this.selectedCity)
-        queryParams.cityId = this.selectedCity.value;
     }
+    if (this.selectedCategory)
+      queryParams.catId = this.selectedCategory.itemCategoryId;
+    if (this.selectedCountry)
+      queryParams.countryId = this.selectedCountry.value;
+    if (this.selectedCity)
+      queryParams.cityId = this.selectedCity.value;
 
     let path = '/';
     // if (this.authService.isAuthenticated()) {
@@ -121,15 +129,40 @@ export class WebsiteSearchComponent implements OnInit {
     this.searchText = item.nameEN;
     this.search();
   }
+  onCountySelected(country) {
+    this.selectedCity = null;
+    this.selectedCountry = country;
+    if(country)
+      this.GetCitiesSelector(country.value);
+    this.search();
+  }
   onCitySelected(city) {
     this.selectedCity = city;
+    this.search();
   }
-  GetCitiesSelector() {
-    this.websiteService.GetCitiesSelector().subscribe((data: GeneralSelectorModel[]) => {
+  GetCountriesSelector() {
+    this.websiteService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.countriesSelectorData = data;
+      if (this.countryId)
+        this.selectedCountry = this.countriesSelectorData.find(c => c.value == this.countryId);
+
+    });
+  }
+  GetCitiesSelector(countryId: number = null) {
+    this.websiteService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
       this.citiesSelectorData = data;
       if (this.cityId)
         this.selectedCity = this.citiesSelectorData.find(c => c.value == this.cityId);
 
     });
+  }
+
+  saveSelectedDataToLocalStorage() {
+    localStorage.setItem('selectedCountry', JSON.stringify(this.selectedCountry));
+    localStorage.setItem('selectedCity', JSON.stringify(this.selectedCity));
+  }
+  getSelectedDataFromLocalStorage() {
+    this.selectedCountry = JSON.parse(localStorage.getItem('selectedCountry'));
+    this.selectedCity = JSON.parse(localStorage.getItem('selectedCity'));
   }
 }

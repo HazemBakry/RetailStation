@@ -1,18 +1,5 @@
 <div class="d-flex align-items-center justify-content-between gap-3">
-    <div *ngIf="citiesSelectorData.length > 0" ngbDropdown class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
-        <!-- <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
-            <i class="ph ph-map-pin fs-5"></i>
-            <span>{{selectedCity?.name ?? 'كل المدن'}}</span>
-            <i class="ph ph-caret-down dropdown-arrow m-0"></i>
-        </a> -->
-        <div class="dropdown-search-menu p-0" ngbDropdownMenu>
-            <div *ngFor="let city of citiesSelectorData" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" (click)="onCitySelected(city)" [class.active]="selectedCity?.value == city.value" ngbDropdownItem>
-                <i class="ph ph-map-pin"></i>
-                <div>{{city.name}}</div>
-            </div>
-
-        </div>
-    </div>
+ 
     <div class="input-search-with-dropdown d-flex align-items-center position-relative" role="search">
         <div ngbDropdown class="dropdown-search px-3">
             <a class="dropdown-search-link sm-action-dropdown" ngbDropdownToggle>
@@ -82,6 +69,47 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between gap-3">
+
+        <div *ngIf="countriesSelectorData.length > 0" ngbDropdown class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
+           <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
+               <i class="ph ph-map-pin fs-5"></i>
+               <span>{{selectedCountry?.name ?? 'كل الدول'}}</span>
+               <i class="ph ph-caret-down dropdown-arrow m-0"></i>
+           </a>
+           <div class="dropdown-search-menu p-0" ngbDropdownMenu>
+               <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" 
+                    (click)="onCountySelected(null)" [class.active]="!selectedCountry" ngbDropdownItem>
+                   <i class="ph ph-map-pin"></i>
+                   <div> كل الدول</div>
+               </div>
+               <div *ngFor="let country of countriesSelectorData" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" (click)="onCountySelected(country)" [class.active]="selectedCountry?.value == country.value" ngbDropdownItem>
+                   <i class="ph ph-map-pin"></i>
+                   <div>{{country.name}}</div>
+               </div>
+   
+           </div>
+       </div>
+          <div *ngIf="citiesSelectorData.length > 0 && selectedCountry" ngbDropdown class="dropdown-search input-search-with-dropdown border-0 px-3 h-100 d-flex align-items-center">
+           <a class="dropdown-search-link sm-action-dropdown border-0" ngbDropdownToggle>
+               <i class="ph ph-map-pin fs-5"></i>
+               <span>{{selectedCity?.name ?? 'كل المدن'}}</span>
+               <i class="ph ph-caret-down dropdown-arrow m-0"></i>
+           </a>
+           <div class="dropdown-search-menu p-0" ngbDropdownMenu>
+               <div class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" 
+                    (click)="onCitySelected(null)" [class.active]="!selectedCity" ngbDropdownItem>
+                   <i class="ph ph-map-pin"></i>
+                   <div>كل المدن</div>
+               </div>
+               <div *ngFor="let city of citiesSelectorData" class="d-flex align-items-center gap-2 cursor-pointer py-3 white-space-nowrap border-bottom-not-last" (click)="onCitySelected(city)" [class.active]="selectedCity?.value == city.value" ngbDropdownItem>
+                   <i class="ph ph-map-pin"></i>
+                   <div>{{city.name}}</div>
+               </div>
+   
+           </div>
+       </div>
     </div>
 </div>
 
