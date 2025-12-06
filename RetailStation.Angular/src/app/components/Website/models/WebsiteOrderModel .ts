@@ -46,6 +46,7 @@ export interface WebsiteOrderModel extends CreatorModel {
     fullAddress: string;
     receiverName: string;
     phoneNumber: string;
+    countryCode: string;
     items: WebsiteOrderItemModel[];
 }
 
@@ -102,6 +103,10 @@ export interface CreateOrderModel extends CreatorModel {
     countryId: number | null;
     cityId: number | null;
     fullAddress: string;
+    countryNameAR: string;
+    countryNameEN: string;
+    cityNameAR: string;
+    cityNameEN: string;
     receiverName: string;
     phoneNumber: string;
     countryCode: string;

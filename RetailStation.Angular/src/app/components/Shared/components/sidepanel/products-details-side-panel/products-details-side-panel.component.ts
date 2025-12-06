@@ -13,6 +13,7 @@ import { OrderDetailModel } from '../../../models/ItemModel';
 export class ProductsDetailsSidePanelComponent implements OnInit {
   @Input() detailsModel: WebsiteOrderItemModel;
   @Input() productList: OrderDetailModel[] = [];
+  @Input() useNewHeaderDesign: boolean=false;
   @Input() dataFields: DataField[] = [];
   @Input() title: string = 'تفاصيل';
 

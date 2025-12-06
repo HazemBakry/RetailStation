@@ -16,7 +16,8 @@ export class DynamicComponentLoaderService {
     detailsModel: any, //OrderModel,
     productList: any[], //GeneralOrderDetailsModel[],
     dataFields: DataField[],
-    title: string = null
+    title: string = null,
+    useNewHeaderDesign: boolean = false
   ) {
     // Clear any existing components in the container
     viewContainerRef.clear();
@@ -33,6 +34,7 @@ export class DynamicComponentLoaderService {
     instance.productList = productList;
     instance.dataFields = dataFields;
     instance.title = title;
+    instance.useNewHeaderDesign = useNewHeaderDesign;
 
     if (instance.openSidePanel) {
       instance.openSidePanel();

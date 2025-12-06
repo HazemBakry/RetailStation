@@ -18,7 +18,7 @@
     <div class="offcanvas-body pt-4 bg-light">
         <div *ngIf="detailsModel" class="employee-card-body mb-3">
             <div class="inputs-wrapper border rounded bg-white mb-3">
-                <div class="inputs-sec-content px-3 py-3">
+                <div *ngIf="!useNewHeaderDesign" class="inputs-sec-content px-3 py-3">
                     <div class="row gy-3">
                         <div class="col-lg-6">
                             <div class="mb-2">
@@ -51,6 +51,83 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="useNewHeaderDesign" class="details-wrapper px-3 py-3">
+
+                    <div class="row gy-4">
+
+                        <!-- ====================== ORDER DATA ====================== -->
+                        <div class="col-lg-6">
+                            <div class="data-card p-3">
+                                <h5 class="section-title mb-3">بيانات الطلب</h5>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">رقم الطلب</span>
+                                    <span class="kv-value">{{ detailsModel?.orderNumber }}</span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">رقم السيريال</span>
+                                    <span class="kv-value">{{ detailsModel?.serialNumber }}</span>
+                                </div>
+
+                                <div class="kv-row" *ngIf="detailsModel?.orderDate">
+                                    <span class="kv-key">تاريخ الطلب</span>
+                                    <span class="kv-value">{{ detailsModel?.orderDate | date }}</span>
+                                </div>
+
+                                <div class="kv-row" *ngIf="detailsModel?.totalValue">
+                                    <span class="kv-key">الإجمالي</span>
+                                    <span class="kv-value">{{ detailsModel?.totalValue }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ====================== RECEIVER DATA ====================== -->
+                        <div class="col-lg-6">
+                            <div class="data-card p-3">
+                                <h5 class="section-title mb-3">بيانات المستلم</h5>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">اسم المستلم</span>
+                                    <span class="kv-value">{{ detailsModel?.receiverName }}</span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">الدولة</span>
+                                    <span class="kv-value">
+                                        {{ detailsModel?.countryNameAR || detailsModel?.countryNameEN }}
+                                    </span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">المدينة</span>
+                                    <span class="kv-value">
+                                        {{ detailsModel?.cityNameAR || detailsModel?.cityNameEN }}
+                                    </span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">العنوان الكامل</span>
+                                    <span class="kv-value">{{ detailsModel?.fullAddress }}</span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">كود الدولة</span>
+                                    <span class="kv-value">{{ detailsModel?.countryCode }}</span>
+                                </div>
+
+                                <div class="kv-row">
+                                    <span class="kv-key">رقم الهاتف</span>
+                                    <span class="kv-value">{{ detailsModel?.phoneNumber }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>

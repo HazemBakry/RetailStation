@@ -133,7 +133,8 @@ export class MerchantOrdersComponent implements OnInit {
         detailsModel,
         data,
         this.orderDetailsDataFields,
-        ` طلب رقم ${detailsModel.orderNumber}`
+        ` طلب رقم ${detailsModel.orderNumber}`,
+        true
       );
 
       this.showLoader = false;
