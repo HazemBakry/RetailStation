@@ -20,6 +20,8 @@ namespace RetailStation.Entities.Models.Operation
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
+        public int? CountryId { get; set; }
+        public int? CityId { get; set; }
         public int? RegionId { get; set; }
         public string Address { get; set; }
         public string CommercialRegister { get; set; }

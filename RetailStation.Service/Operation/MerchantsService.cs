@@ -51,6 +51,8 @@ namespace RetailStation.Service.Operation
                             Phone = merchant.Phone,
                             Mobile = merchant.Mobile,
                             Email = merchant.Email,
+                            CountryId = merchant.CountryId,
+                            CityId = merchant.CityId,
                             RegionId = merchant.RegionId,
                             Address = merchant.Address,
                             CommercialRegister = merchant.CommercialRegister,
@@ -64,7 +66,7 @@ namespace RetailStation.Service.Operation
                             ContactMobile = merchant.ContactMobile,
                             Notes = merchant.Notes,
                             IsActive = merchant.IsActive,
-                            ImageUrl = FileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, merchant.ImageUrl ?? "")),
+                            ImageUrl = !string.IsNullOrEmpty(merchant.ImageUrl) ? FileService.GetFileDownloadUrl(Path.Combine(UserImagesFolder, merchant.ImageUrl ?? "")):string.Empty,
                             CreatedBy = merchant.CreatedBy,
                             CreatedDate = merchant.CreatedDate,
                             ModifiedBy = merchant.ModifiedBy,
@@ -114,6 +116,8 @@ namespace RetailStation.Service.Operation
                 merchant.Phone = model.Phone;
                 merchant.Mobile = model.Mobile;
                 merchant.Email = model.Email;
+                merchant.CountryId = model.CountryId;
+                merchant.CityId = model.CityId;
                 merchant.RegionId = model.RegionId;
                 merchant.Address = model.Address;
                 merchant.CommercialRegister = model.CommercialRegister;
@@ -149,12 +153,14 @@ namespace RetailStation.Service.Operation
                 var merchant = Context.Merchants.FirstOrDefault(i => i.MerchantId == MerchantId);
                 if (merchant != null)
                 {
-                    merchant.Code = model.Code;
+                    //merchant.Code = model.Code;
                     merchant.NameAR = model.NameAR;
                     merchant.NameEN = model.NameEN;
                     merchant.Phone = model.Phone;
                     merchant.Mobile = model.Mobile;
                     merchant.Email = model.Email;
+                    merchant.CountryId = model.CountryId;
+                    merchant.CityId = model.CityId;
                     merchant.RegionId = model.RegionId;
                     merchant.Address = model.Address;
                     merchant.CommercialRegister = model.CommercialRegister;
@@ -164,11 +170,11 @@ namespace RetailStation.Service.Operation
                     merchant.DeliveryCost = model.DeliveryCost;
                     merchant.DeliveryTime = model.DeliveryTime;
                     merchant.PaymentMethodId = model.PaymentMethodId;
-                    merchant.Rate = model.Rate;
+                    //merchant.Rate = model.Rate;
                     merchant.ContactPerson = model.ContactPerson;
                     merchant.ContactMobile = model.ContactMobile;
                     merchant.Notes = model.Notes;
-                    merchant.IsActive = merchant.IsActive;
+                    //merchant.IsActive = merchant.IsActive;
                     merchant.ModifiedBy = model.ModifiedBy;
                     merchant.ModifiedDate = DateTime.Now;
 

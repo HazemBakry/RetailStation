@@ -6,6 +6,11 @@ import { MerchantModel } from 'src/app/components/Admin/models/MerchantModel';
 import { FormService } from 'src/app/components/Shared/services/form.service';
 import { ActionsResponseModel } from 'src/app/components/Shared/models/ActionsResponseModel';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/Auth/auth.service';
+import { ChangePasswordModel } from 'src/app/components/Shared/models/ChangePasswordModel';
+import { LookupService } from 'src/app/components/Shared/services/lookup.service';
+import { SharedService } from 'src/app/components/Shared/services/shared.service';
+import { CustomValidators, RegexType } from 'src/app/components/Shared/services/custom-validators';
 
 @Component({
   selector: 'app-merchant-profile',
@@ -15,11 +20,13 @@ import { ToastrService } from 'ngx-toastr';
 export class MerchantProfileComponent implements OnInit {
   merchantModel: MerchantModel = {} as MerchantModel;
   showLoader: boolean = false;
-  regionsSelectorData: GeneralSelectorModel[] = [];
+  showAddLoader: boolean = false;
+  showUpdateLoader: boolean = false;
   countriesSelectorData: GeneralSelectorModel[] = [];
+  regionsSelectorData: GeneralSelectorModel[] = [];
+  citiesSelectorData: GeneralSelectorModel[] = [];
   subscribersSelectorData: GeneralSelectorModel[] = [];
   paymentMethodsSelectorData: GeneralSelectorModel[] = [];
-  citiesSelectorData: GeneralSelectorModel[] = [];
   imageFile: File;
   formData: FormData = new FormData();
   public formGroup: FormGroup;
@@ -53,13 +60,19 @@ export class MerchantProfileComponent implements OnInit {
   constructor(private merchantService: MerchantService,
     private _FormService: FormService,
     private form: FormBuilder,
-    private toaster: ToastrService,) { }
+    private authService: AuthService,
+    private sharedService: SharedService,
+    private lookupService: LookupService,
+    private toaster: ToastrService,) {
+    this.userName = this.authService.getCurrentUser()?.userName
+  }
 
 
 
   ngOnInit(): void {
     this.buildForm();
     this.getLoggedMerchantDetails();
+    this.loadSelectors();
   }
 
 
@@ -77,7 +90,30 @@ export class MerchantProfileComponent implements OnInit {
       this.showLoader = false;
     })
   }
+  loadSelectors() {
+    this.sharedService.GetCountriesSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.countriesSelectorData = data;
+    });
+    this.sharedService.GetMerchantsSelector().subscribe((data: GeneralSelectorModel[]) => {
+      this.subscribersSelectorData = data;
+    });
+    this.lookupService.GetPaymentMethods().subscribe((data: GeneralSelectorModel[]) => {
+      this.paymentMethodsSelectorData = data;
+    });
+  }
 
+  loadCitiesByCountryId(countryId: number) {
+    this.sharedService.GetCitiesSelector(countryId).subscribe((data: GeneralSelectorModel[]) => {
+      this.citiesSelectorData = data;
+    });
+  }
+
+  loadRegions(countryId = null, cityId: number = null) {
+
+    this.sharedService.GetRegionIdSelector(countryId, cityId).subscribe((data: GeneralSelectorModel[]) => {
+      this.regionsSelectorData = data;
+    });
+  }
 
   updateMerchantData() {
     if (!this.validateForm()) {
@@ -90,15 +126,15 @@ export class MerchantProfileComponent implements OnInit {
       this.formData.append('image', this.imageFile);
     }
 
-    Object.keys(this.merchantModel).forEach(key => {
-      if (key != 'image' && this.merchantModel[key])
-        this.formData.append(key, this.merchantModel[key]);
-    });
+    // Object.keys(this.merchantModel).forEach(key => {
+    //   if (key != 'image' && this.merchantModel[key])
+    //     this.formData.append(key, this.merchantModel[key]);
+    // });
     Object.keys(this.formGroup.value).forEach(key => {
       if (key != 'image' && this.formGroup.value[key])
         this.formData.set(key, this.formGroup.value[key]);
     });
-    this.showLoader = true;
+    this.showUpdateLoader = true;
     this.merchantService.EditMerchant(this.formData).subscribe((data: ActionsResponseModel) => {
       if (data?.isSuccess) {
         this.toaster.success(data.message);
@@ -108,11 +144,11 @@ export class MerchantProfileComponent implements OnInit {
       } else {
         this.toaster.error(data.message);
       }
-      this.showLoader = false;
+      this.showUpdateLoader = false;
     }, (err) => {
-      this.showLoader = false;
+      this.showUpdateLoader = false;
     }, () => {
-      this.showLoader = false;
+      this.showUpdateLoader = false;
     })
   }
 
@@ -120,8 +156,6 @@ export class MerchantProfileComponent implements OnInit {
     this.imageFile = event.target.files[0];
     //this.imageFileName = event.target.files[0].name;
   }
-
-
 
   fillEditForm(MerchantModel: MerchantModel) {
     this.formGroup.patchValue({
@@ -161,30 +195,39 @@ export class MerchantProfileComponent implements OnInit {
       nameAR: [null, [Validators.required]],
       nameEN: [null, [Validators.required]],
       code: [null],
-      email: [null],
+      email: [null, [CustomValidators.regexPattern(RegexType.email)]],
       image: [null],
       isActive: [null],
       description: [null],
-      phone: [null],
-      mobile: [null],
+      phone: [null, [CustomValidators.regexPattern(RegexType.phoneNumber)]],
+      mobile: [null, [CustomValidators.regexPattern(RegexType.phoneNumber)]],
       countryId: [null],
       cityId: [null],
       regionId: [null],
-      address: [null],
+      address: [null, [CustomValidators.regexPattern(RegexType.addressLine)]],
       notes: [null],
-      commercialRegister: [null],
-      deliveryCost: [null],
+      commercialRegister: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
+      deliveryCost: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
       rate: [null],
-      deliveryTime: [null],
+      deliveryTime: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
       paymentMethodId: [null],
-      taxNumber: [null],
-      bankAccountNumber: [null],
+      taxNumber: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
+      bankAccountNumber: [null, [CustomValidators.regexPattern(RegexType.numeric)]],
       brandName: [null],
       contactPerson: [null],
-      contactMobile: [null]
+      contactMobile: [null, [CustomValidators.regexPattern(RegexType.phoneNumber)]]
     });
     this.formGroup.valueChanges.subscribe((data) => {
       this.formErrors = this._FormService.validateForm(this.formGroup, this.formErrors, true);
+    });
+    this.formGroup.get('countryId').valueChanges.subscribe(countryId => {
+      this.citiesSelectorData = [];
+      this.regionsSelectorData = [];
+      this.formGroup.patchValue({ cityId: null, regionId: null });
+      if (countryId) {
+        this.loadCitiesByCountryId(countryId);
+        this.loadRegions(countryId);
+      }
     });
   }
 
@@ -199,4 +242,52 @@ export class MerchantProfileComponent implements OnInit {
     }
   }
 
+
+
+  //-------------------------- change password ----------------------------------------------------------
+  userName: string = '';
+  password: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+  changePassword() {
+    this.userName = this.userName.trim();
+    this.password = this.password.trim();
+    this.newPassword = this.newPassword.trim();
+    this.confirmPassword = this.confirmPassword.trim();
+    if (this.password == '' || this.confirmPassword == '') {
+      this.toaster.error('يرجى ملء جميع الحقول المطلوبة');
+      return;
+    }
+    if (this.confirmPassword != this.newPassword) {
+      this.toaster.error('كلمة المرور الجديدة وتأكيد كلمة المرور غير متطابقين');
+      return;
+    }
+    if (this.userName == '') {
+      this.toaster.error('يرجى إدخال اسم المستخدم');
+      return;
+    }
+    let model: ChangePasswordModel = {
+      username: this.userName,
+      //email: this.userModel.email,
+      oldPassword: this.password,
+      newPassword: this.confirmPassword,
+      confirmNewPassword: this.confirmPassword
+    }
+    this.showAddLoader = true;
+
+    this.authService.changePassword(model).subscribe(data => {
+      if (data.isSuccess) {
+        this.toaster.success(data.message);
+        this.authService.logout();
+
+      } else {
+        this.toaster.error(data.message);
+      }
+      this.showAddLoader = false;
+    }, (err) => {
+      this.showAddLoader = false;
+    }, () => {
+      this.showAddLoader = false;
+    })
+  }
 }
