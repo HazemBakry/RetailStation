@@ -29,6 +29,10 @@ export class AppPaginationComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.resetShowingStr();
+    if(this.totalCount){
+      this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+      this.generatePages();
+    }
   }
 
   ngOnChanges(changes: any) {

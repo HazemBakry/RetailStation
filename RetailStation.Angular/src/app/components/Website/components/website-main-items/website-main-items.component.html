@@ -1,9 +1,9 @@
-
 <!-- <app-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"></app-filters> -->
 <div class="items-container container-fluid py-4">
     <div class="row g-4">
-        <aside class="col-12 col-lg-3 col-xl-2">
-            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)" [searchPlaceholder]="'البحث  ...'">
+        <aside *ngIf="filterList?.length > 0" class="col-12 col-lg-3 col-xl-2">
+            <app-website-filters [FilterList]="filterList" (filterChanged)="filterChecked($event)"
+                [searchPlaceholder]="'البحث  ...'">
             </app-website-filters>
         </aside>
 
@@ -29,8 +29,11 @@
           </app-website-item-card>
         </div>
       </div> -->
-
-            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage" [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount" style="direction: ltr; margin: 15px 0;">
+            <app-empty-data [showEmptyData]="!pageResponseModel.results?.length && !showLoader"></app-empty-data>
+            <app-pagination *ngIf="pageResponseModel.totalCount > pageResponseModel.pageSize"
+                (pageChanged)="pageChanged($event)" [currentPage]="pageResponseModel.currentPage"
+                [pageSize]="pageResponseModel.pageSize" [totalCount]="pageResponseModel.totalCount"
+                style="direction: ltr; margin: 15px 0;">
             </app-pagination>
         </main>
     </div>
