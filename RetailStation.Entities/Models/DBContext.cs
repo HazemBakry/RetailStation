@@ -63,6 +63,7 @@ namespace RetailStation.Entities.Models
 
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Merchant> Merchants { get; set; }
+        public DbSet<MerchantDeliveryRegion> MerchantDeliveryRegions { get; set; }
         public DbSet<SupplierGroup> SupplierGroups { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Store> Stores { get; set; }

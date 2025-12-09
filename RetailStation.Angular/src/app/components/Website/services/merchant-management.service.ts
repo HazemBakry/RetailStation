@@ -10,6 +10,7 @@ import { PromotionModel } from '../../Shared/models/PromotionModel';
 import { WebsiteOrderItemModel, WebsiteOrderModel } from '../models/WebsiteOrderModel ';
 import { FilterItem } from '../../Shared/models/FilterModel';
 import { OrderStatusStatisticModel } from '../../Shared/models/OrderStatusStatisticModel';
+import { MerchantDeliveryRegionModel } from '../../Merchant/models/MerchantDeliveryRegionModel';
 
 
 @Injectable({
@@ -150,4 +151,48 @@ export class MerchantManagementService {
   CancelOrder(OrderId: number) {
     return this.http.get<ActionsResponseModel>(this.URL + 'MerchantManagement/CancelOrder?OrderId=' + OrderId);
   }
+
+
+
+  //////////////////////////// Merchant Delivery Regions /////////////////////////////////////
+
+GetMerchantDeliveryRegions(searchModel: PagedResponseModel<MerchantDeliveryRegionModel[]>) {
+  return this.http.post<PagedResponseModel<MerchantDeliveryRegionModel[]>>(
+    this.URL + 'MerchantManagement/GetMerchantDeliveryRegions',
+    searchModel
+  );
+}
+
+GetMerchantDeliveryRegionById(regionId: number) {
+  return this.http.get<MerchantDeliveryRegionModel>(
+    this.URL + `MerchantManagement/GetMerchantDeliveryRegionById?MerchantDeliveryRegionId=${regionId}`
+  );
+}
+
+AddMerchantDeliveryRegion(model: MerchantDeliveryRegionModel) {
+  return this.http.post<ActionsResponseModel>(
+    this.URL + 'MerchantManagement/AddMerchantDeliveryRegion',
+    model
+  );
+}
+
+EditMerchantDeliveryRegion(regionId: number, model: MerchantDeliveryRegionModel) {
+  return this.http.post<ActionsResponseModel>(
+    this.URL + `MerchantManagement/EditMerchantDeliveryRegion?MerchantDeliveryRegionId=${regionId}`,
+    model
+  );
+}
+
+DeleteMerchantDeliveryRegion(regionId: number) {
+  return this.http.get<ActionsResponseModel>(
+    this.URL + `MerchantManagement/DeleteMerchantDeliveryRegion?MerchantDeliveryRegionId=${regionId}`
+  );
+}
+
+ChangeMerchantDeliveryRegionActiveStatus(regionId: number) {
+  return this.http.get<ActionsResponseModel>(
+    this.URL + `MerchantManagement/ChangeMerchantDeliveryRegionActiveStatus?MerchantDeliveryRegionId=${regionId}`
+  );
+}
+
 }

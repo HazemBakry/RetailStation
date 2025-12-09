@@ -61,5 +61,16 @@ namespace RetailStation.Interface.Operation
 
         #endregion
 
+        #region MerchantDeliveryRegions
+
+        List<MerchantDeliveryRegionModel> GetMerchantDeliveryRegions(int merchantId, SearchFilterModel filterModel, int? regionId = null);
+        MerchantDeliveryRegionModel GetMerchantDeliveryRegionById(int merchantId, int regionId);
+        ActionsResponseModel AddMerchantDeliveryRegion(int merchantId, MerchantDeliveryRegionModel model);
+        ActionsResponseModel EditMerchantDeliveryRegion(int merchantId, int regionId, MerchantDeliveryRegionModel model);
+        ActionsResponseModel DeleteMerchantDeliveryRegion(int merchantId, int regionId);
+        ActionsResponseModel ChangeMerchantDeliveryRegionActiveStatus(int merchantId, int regionId);
+        #endregion
+
+
     }
 }

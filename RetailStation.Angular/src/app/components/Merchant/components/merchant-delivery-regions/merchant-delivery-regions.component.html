@@ -1,0 +1,210 @@
+<app-breadcrumb [TitleList]="TitleList"></app-breadcrumb>
+
+<div class="table-card border radius-10 overflow-hidden shadow-sm">
+    <div
+        class="align-items-center border-bottom d-flex flex-wrap justify-content-between p-3 table-card-title bg-light">
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-primary d-flex align-items-center gap-2 border rounded px-3"
+                (click)="openNewRegionPanel(AddNewDialog)">
+                <i class="fas fa-plus-circle"></i>
+                <span>إضافة منطقة توصيل</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="p-3 bg-white">
+        <div class="table-responsive shadow-sm radius-10">
+            <table class="table table-card-table table-borderless table-middle bg-transparent m-0">
+                <thead>
+                    <tr>
+                        <th>الدولة</th>
+                        <th>المدينة</th>
+                        <th>المنطقة</th>
+                        <th>التكلفة</th>
+                        <th>مدة التوصيل</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of pagedResponseModel.results">
+                        <td>{{ item.countryNameAR }}</td>
+                        <td>{{ item.cityNameAR }}</td>
+                        <td>{{ item.regionNameAR }}</td>
+                        <td>{{ item.cost }}</td>
+                        <td>{{ item.deliveryTime }} {{ item.deliveryTimeUnit }}</td>
+
+                        <td class="text-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="switch me-2">
+                                    <input type="checkbox" [(ngModel)]="item.isActive"
+                                        (change)="changeStatus(item.merchantDeliveryRegionId)">
+                                    <span class="promo round"></span>
+                                </label>
+
+                                <button
+                                    class="button-table-action btn-edit d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openNewRegionPanel(AddNewDialog, item)">
+                                    <i class="uil uil-pen"></i>
+                                    <span>تعديل</span>
+                                </button>
+
+                                <button
+                                    class="button-table-action btn-delete d-flex align-items-center justify-content-center gap-2"
+                                    (click)="openDeleteModal(deleteModal, item.merchantDeliveryRegionId)">
+                                    <i class="uil uil-trash-alt"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <app-empty-data [showEmptyData]="!pagedResponseModel.results?.length && !showLoader"
+                [showLoader]="showLoader"></app-empty-data>
+        </div>
+
+        <div class="justify-content-end">
+            <app-pagination (pageChanged)="pageChanged($event)" [currentPage]="pagedResponseModel.currentPage"
+                [pageSize]="pagedResponseModel.pageSize" [totalCount]="pagedResponseModel.totalCount"></app-pagination>
+        </div>
+    </div>
+</div>
+
+<!-- Add / Edit Modal -->
+<ng-template #AddNewDialog let-modal>
+    <div class="modal-header modal-header-bg justify-content-between">
+        <h2 class="d-flex align-items-center gap-2">
+            <i class="uil uil-plus"></i>
+            <span>بيانات منطقة التوصيل</span>
+            <span *ngIf="!isUpdate" class="ms-3">(إضافة)</span>
+            <span *ngIf="isUpdate" class="ms-3">(تعديل)</span>
+        </h2>
+
+        <div class="cursor-pointer text-danger fs-2" (click)="modal.dismiss()">
+            <i class="uil uil-times-circle"></i>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="formGroup" autocomplete="off">
+            <table class="table table-bordered table-feature-value align-middle border m-0">
+                <tbody>
+
+                    <!-- Country -->
+                    <tr>
+                        <td class="table-feature">الدولة</td>
+                        <td class="table-value">
+                            <app-general-selector formControlName="countryId" [placeholder]="'الدولة'"
+                                [data]="countries" [showSearch]="true"></app-general-selector>
+
+                            <div *ngIf="formErrors.countryId" class="text-danger font-small-3 m-03">
+                                {{ formErrors.countryId }}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- City -->
+                    <tr>
+                        <td class="table-feature">المدينة</td>
+                        <td class="table-value">
+                            <app-general-selector formControlName="cityId" [placeholder]="'المدينة'" [data]="cities"
+                                [showSearch]="true"></app-general-selector>
+
+                            <div *ngIf="formErrors.cityId" class="text-danger font-small-3 m-03">
+                                {{ formErrors.cityId }}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Region -->
+                    <tr>
+                        <td class="table-feature">المنطقة</td>
+                        <td class="table-value">
+                            <app-general-selector formControlName="regionId" [placeholder]="'المنطقة'" [data]="regions"
+                                [showSearch]="true"></app-general-selector>
+
+                            <div *ngIf="formErrors.regionId" class="text-danger font-small-3 m-03">
+                                {{ formErrors.regionId }}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Cost -->
+                    <tr>
+                        <td class="table-feature">التكلفة</td>
+                        <td class="table-value">
+                            <input type="text" class="form-control form-control-lg" formControlName="cost"
+                                placeholder="تكلفة التوصيل">
+
+                            <div *ngIf="formErrors.cost" class="text-danger font-small-3 m-03">
+                                {{ formErrors.cost }}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Delivery Time -->
+                    <tr>
+                        <td class="table-feature">وقت التوصيل</td>
+                        <td class="table-value">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" formControlName="deliveryTime"
+                                        class="form-control form-control-lg" placeholder="مدة التوصيل">
+                                    <div *ngIf="formErrors.deliveryTime" class="text-danger font-small-3 m-03">
+                                        {{ formErrors.deliveryTime }}
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <select formControlName="deliveryTimeUnit" class="form-control form-control-lg">
+                                        <option value="" disabled>الوحدة</option>
+                                        <option value="Minutes">دقائق</option>
+                                        <option value="Hours">ساعات</option>
+                                        <option value="Days">أيام</option>
+                                    </select>
+
+                                    <div *ngIf="formErrors.deliveryTimeUnit" class="text-danger font-small-3 m-03">
+                                        {{ formErrors.deliveryTimeUnit }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="modal-footer flex-nowrap gap-2">
+        <button [disabled]="showAddLoader" (click)="saveRegion()" type="button"
+            class="btn btn-success d-flex align-items-center justify-content-center gap-2 w-100">
+            <i class="uil uil-save fs-3"></i>
+            <span *ngIf="!isUpdate">إنشاء</span>
+            <span *ngIf="isUpdate">تعديل</span>
+        </button>
+
+        <button type="button" class="btn btn-danger d-flex align-items-center gap-2" (click)="modal.close()">
+            <i class="uil uil-times-circle fs-3"></i>
+            <span>الغاء</span>
+        </button>
+    </div>
+</ng-template>
+
+<!-- Delete Modal -->
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4>تأكيد الحذف</h4>
+    </div>
+
+    <div class="modal-body">
+        <p>هل أنت متأكد من حذف منطقة التوصيل؟</p>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="deleteRegion(); modal.close()">نعم</button>
+        <button class="btn btn-danger" (click)="modal.dismiss()">إلغاء</button>
+    </div>
+</ng-template>

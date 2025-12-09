@@ -860,5 +860,206 @@ namespace RetailStation.Service.Operation
         }
 
         #endregion
+
+        #region MerchantDeliveryRegions
+        public List<MerchantDeliveryRegionModel> GetMerchantDeliveryRegions(int merchantId, SearchFilterModel filter, int? regionId = null)
+        {
+            var query = Context.MerchantDeliveryRegions.AsNoTracking()
+                .Where(x => x.MerchantId == merchantId && (!regionId.HasValue || x.MerchantDeliveryRegionId == regionId));
+
+            int totalCount = query.Count();
+
+            if (filter.CurrentPage > 0 && filter.PageSize > 0)
+            {
+                int skip = (filter.CurrentPage - 1) * filter.PageSize;
+                query = query.Skip(skip).Take(filter.PageSize);
+            }
+
+            var deliveryRegions = query.ToList();
+            var countries = Context.Countries.AsNoTracking().ToList();
+            var cities = Context.Cities.AsNoTracking().ToList();
+            var regions = Context.Regions.AsNoTracking().ToList();
+
+            var results = (from r in deliveryRegions
+                           join c in countries on r.CountryId equals c.CountryId
+                           join ci in cities on r.CityId equals ci.CityId into cityJoin
+                           from ci in cityJoin.DefaultIfEmpty()
+                           join rg in regions on r.RegionId equals rg.RegionId into regionJoin
+                           from rg in regionJoin.DefaultIfEmpty()
+                           select new MerchantDeliveryRegionModel
+                           {
+                               MerchantDeliveryRegionId = r.MerchantDeliveryRegionId,
+                               MerchantId = r.MerchantId,
+                               CountryId = r.CountryId,
+                               CityId = r.CityId,
+                               RegionId = r.RegionId,
+                               Cost = r.Cost,
+                               DeliveryTime = r.DeliveryTime,
+                               DeliveryTimeUnit = r.DeliveryTimeUnit,
+                               IsActive = r.IsActive,
+                               CreatedBy = r.CreatedBy,
+                               CreatedDate = r.CreatedDate,
+                               ModifiedBy = r.ModifiedBy,
+                               ModifiedDate = r.ModifiedDate,
+                               CountryNameAR = c != null ? c.NameAR : "",
+                               CountryNameEN = c != null ? c.NameEN : "",
+                               CityNameAR = ci != null ? ci.NameAR : "",
+                               CityNameEN = ci != null ? ci.NameEN : "",
+                               RegionNameAR = rg != null ? rg.NameAR : "",
+                               RegionNameEN = rg != null ? rg.NameEN : ""
+                           }).ToList();
+
+            results.ForEach(x => x.TotalCount = totalCount);
+            return results;
+        }
+
+
+
+        public MerchantDeliveryRegionModel GetMerchantDeliveryRegionById(int merchantId, int regionId)
+        {
+            return GetMerchantDeliveryRegions(merchantId, new SearchFilterModel { PageSize = 1, CurrentPage = 1 }, regionId)
+                .FirstOrDefault();
+        }
+
+        public ActionsResponseModel AddMerchantDeliveryRegion(int merchantId, MerchantDeliveryRegionModel model)
+        {
+            try
+            {
+                var exists = Context.MerchantDeliveryRegions.Any(x =>
+                    x.MerchantId == merchantId &&
+                    x.CountryId == model.CountryId &&
+                    x.CityId == model.CityId &&
+                    x.RegionId == model.RegionId
+                );
+
+                if (exists)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "This delivery region already exists for this merchant."
+                    };
+                }
+
+                var entity = new MerchantDeliveryRegion
+                {
+                    MerchantId = merchantId,
+                    CountryId = model.CountryId,
+                    CityId = model.CityId,
+                    RegionId = model.RegionId,
+                    Cost = model.Cost,
+                    DeliveryTime = model.DeliveryTime,
+                    DeliveryTimeUnit = model.DeliveryTimeUnit,
+                    IsActive = model.IsActive,
+                    CreatedBy = model.CreatedBy,
+                    CreatedDate = DateTime.Now
+                };
+
+                Context.MerchantDeliveryRegions.Add(entity);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Delivery region added successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel EditMerchantDeliveryRegion(int merchantId, int regionId, MerchantDeliveryRegionModel model)
+        {
+            try
+            {
+                var entity = Context.MerchantDeliveryRegions
+                    .FirstOrDefault(x => x.MerchantId == merchantId && x.MerchantDeliveryRegionId == regionId);
+
+                if (entity == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Region not found." };
+
+                var exists = Context.MerchantDeliveryRegions.Any(x =>
+                    x.MerchantId == merchantId &&
+                    x.MerchantDeliveryRegionId != regionId &&
+                    x.CountryId == model.CountryId &&
+                    x.CityId == model.CityId &&
+                    x.RegionId == model.RegionId
+                );
+
+                if (exists)
+                {
+                    return new ActionsResponseModel
+                    {
+                        IsSuccess = false,
+                        Message = "This delivery region already exists for this merchant."
+                    };
+                }
+
+                entity.CountryId = model.CountryId;
+                entity.CityId = model.CityId;
+                entity.RegionId = model.RegionId;
+                entity.Cost = model.Cost;
+                entity.DeliveryTime = model.DeliveryTime;
+                entity.DeliveryTimeUnit = model.DeliveryTimeUnit;
+                entity.IsActive = model.IsActive;
+                entity.ModifiedBy = model.ModifiedBy;
+                entity.ModifiedDate = DateTime.Now;
+
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Delivery region updated successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel
+                {
+                    IsSuccess = false,
+                    Message = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public ActionsResponseModel DeleteMerchantDeliveryRegion(int merchantId, int regionId)
+        {
+            try
+            {
+                var entity = Context.MerchantDeliveryRegions.FirstOrDefault(x => x.MerchantId == merchantId && x.MerchantDeliveryRegionId == regionId);
+                if (entity == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Region not found." };
+
+                Context.MerchantDeliveryRegions.Remove(entity);
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Delivery region deleted successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        public ActionsResponseModel ChangeMerchantDeliveryRegionActiveStatus(int merchantId, int regionId)
+        {
+            try
+            {
+                var entity = Context.MerchantDeliveryRegions.FirstOrDefault(x => x.MerchantId == merchantId && x.MerchantDeliveryRegionId == regionId);
+                if (entity == null)
+                    return new ActionsResponseModel { IsSuccess = false, Message = "Region not found." };
+
+                entity.IsActive = !entity.IsActive;
+                Context.SaveChanges();
+
+                return new ActionsResponseModel { Message = "Status changed successfully!" };
+            }
+            catch (Exception ex)
+            {
+                return new ActionsResponseModel { IsSuccess = false, Message = ex.InnerException?.Message ?? ex.Message };
+            }
+        }
+
+        #endregion
+
     }
 }

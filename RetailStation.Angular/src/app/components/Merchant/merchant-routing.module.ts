@@ -9,6 +9,7 @@ import { MerchantLayoutComponent } from './merchant-layout/merchant-layout.compo
 import { MerchantItemsComponent } from './components/merchant-items/merchant-items.component';
 import { MerchantPromotionsComponent } from './components/merchant-promotions/merchant-promotions.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders.component';
+import { MerchantDeliveryRegionsComponent } from './components/merchant-delivery-regions/merchant-delivery-regions.component';
 
 
 
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'merchant-promotions', component: MerchantPromotionsComponent, canActivate: [AuthPageGuard], data: { pageName: 'promotions' } },
       { path: 'merchant-profile', component: MerchantProfileComponent, canActivate: [AuthPageGuard], data: { pageName: 'merchant-profile' } },
       { path: 'merchant-branches', component: BranchesComponent, canActivate: [AuthPageGuard], data: { pageName: 'branches' } },
+      { path: 'merchant-delivery-regions', component: MerchantDeliveryRegionsComponent, canActivate: [AuthPageGuard], data: { pageName: 'branches' } },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],

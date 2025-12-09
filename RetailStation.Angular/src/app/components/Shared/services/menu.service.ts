@@ -77,6 +77,12 @@ export class MenuService {
                 route: '/admin/merchants'
               },
               {
+                displayName: 'قائمة السلايدر',
+                menuItem: 'sliders',
+                icon: 'fa fa-users',
+                route: '/admin/sliders'
+              },
+              {
                 displayName: 'قائمة الدول',
                 menuItem: 'countries',
                 icon: 'fa fa-users',
@@ -259,6 +265,13 @@ export class MenuService {
                 description: 'تعديل بيانات الفروع ',
                 icon: 'fa fa-file-alt',
                 route: '/merchant/merchant-branches'
+              },
+              {
+                displayName: 'بيانات المناطق التوصيل',
+                menuItem: 'delivery-regions',
+                description: 'تعديل بيانات المناطق التوصيل ',
+                icon: 'fa fa-file-alt',
+                route: '/merchant/merchant-delivery-regions'
               },
               // {
               //   displayName: 'كشف حساب العملاء',

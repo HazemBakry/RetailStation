@@ -440,5 +440,93 @@ namespace RetailStation.API.Controllers.Operation
         }
         #endregion
 
+
+        #region MerchantDeliveryRegions
+        [HttpPost]
+        [Route("GetMerchantDeliveryRegions")]
+        public IActionResult GetMerchantDeliveryRegions(SearchFilterModel SearchModel)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var data = _merchantManagementService.GetMerchantDeliveryRegions(MerchantId, SearchModel);
+
+            var result = new PagedResponseModel<MerchantDeliveryRegionModel>
+            {
+                Results = data,
+                TotalCount = data.FirstOrDefault()?.TotalCount ?? 0,
+                PageSize = SearchModel.PageSize,
+                CurrentPage = SearchModel.CurrentPage
+            };
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetMerchantDeliveryRegionById")]
+        public IActionResult GetMerchantDeliveryRegionById(int MerchantDeliveryRegionId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var result = _merchantManagementService.GetMerchantDeliveryRegionById(MerchantId, MerchantDeliveryRegionId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AddMerchantDeliveryRegion")]
+        public IActionResult AddMerchantDeliveryRegion([FromBody] MerchantDeliveryRegionModel model)
+        {
+             model.CreatedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var result = _merchantManagementService.AddMerchantDeliveryRegion(MerchantId, model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("EditMerchantDeliveryRegion")]
+        public IActionResult EditMerchantDeliveryRegion(int MerchantDeliveryRegionId, [FromBody] MerchantDeliveryRegionModel model)
+        {
+            model.ModifiedBy = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var result = _merchantManagementService.EditMerchantDeliveryRegion(MerchantId, MerchantDeliveryRegionId, model);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("DeleteMerchantDeliveryRegion")]
+        public IActionResult DeleteMerchantDeliveryRegion(int MerchantDeliveryRegionId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var result = _merchantManagementService.DeleteMerchantDeliveryRegion(MerchantId, MerchantDeliveryRegionId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("ChangeMerchantDeliveryRegionActiveStatus")]
+        public IActionResult ChangeMerchantDeliveryRegionActiveStatus(int MerchantDeliveryRegionId)
+        {
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == "MerchantId")?.Value, out int MerchantId);
+            if (MerchantId <= 0)
+                return BadRequest("No Merchant assigned");
+
+            var result = _merchantManagementService.ChangeMerchantDeliveryRegionActiveStatus(MerchantId, MerchantDeliveryRegionId);
+            return Ok(result);
+        }
+
+        #endregion
     }
 }
