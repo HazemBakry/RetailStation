@@ -10,6 +10,10 @@ namespace RetailStation.Interface.Shared
 {
     public interface ILookupService
     {
+        #region Global Lookups
+
+        List<SelectorDataModel> GetPaymentMethods();
+        #endregion
 
     }
 }

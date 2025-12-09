@@ -31,6 +31,17 @@ namespace RetailStation.Service.Shared
             LookupsContext = lookupsContext;
         }
 
+        #region Global Lookups
+
+        public List<SelectorDataModel> GetPaymentMethods()
+        {
+            return LookupsContext.PaymentMethods.Select(x => new SelectorDataModel
+            {
+                Id = x.PaymentMethodId,
+                Name = x.NameAR ?? x.NameEN
+            }).ToList();
+        }
+        #endregion
 
     }
 }
