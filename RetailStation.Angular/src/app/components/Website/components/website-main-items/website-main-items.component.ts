@@ -22,6 +22,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
   searchText: string = '';
   itemCategoryId: string = '';
   cityId: string = '';
+  countryId: string = '';
   systemURL: string = environment.systemUrl;
   UserModel: any;
   activeOrderFilter: number;
@@ -94,6 +95,7 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
       this.searchText = params.get('q') || '';
       this.itemCategoryId = params.get('catId') || '';
       this.cityId = params.get('cityId') || '';
+      this.countryId = params.get('countryId') || '';
       this.applySearch();
       // this.pageResponseModel.filterList = [];
       // if (searchText) {
@@ -123,6 +125,10 @@ export class WebsiteMainItemsComponent implements OnInit, OnChanges {
     }
     if (this.cityId) {
       let searchFilter: FilterItem = { categoryName: 'CityId', itemFlag: this.cityId }
+      this.pageResponseModel.filterList.push(searchFilter);
+    }
+    if (this.countryId) {
+      let searchFilter: FilterItem = { categoryName: 'CountryId', itemFlag: this.countryId }
       this.pageResponseModel.filterList.push(searchFilter);
     }
     this.searchFList = [...this.pageResponseModel.filterList];
