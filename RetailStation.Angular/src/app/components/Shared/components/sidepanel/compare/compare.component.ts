@@ -36,7 +36,7 @@ export class CompareComponent implements OnInit {
     currentPage: 1,
     searchText: ''
   };
-  suppliersSelectorData: GeneralSelectorModel[] = [];
+  merchantsSelectorData: GeneralSelectorModel[] = [];
   compareCount$: number = 0;
 
   constructor(private offcanvasService: NgbOffcanvas,
@@ -66,7 +66,7 @@ export class CompareComponent implements OnInit {
     this.showLoader = true;
     this.websiteService.GetWebsiteItems_Data(this.pageResponseModel).subscribe(data => {
       this.pageResponseModel.results = data.results;
-      // this.suppliersData = this.suppliersData.concat([...data.results]);
+      // this.merchantsData = this.merchantsData.concat([...data.results]);
       this.pageResponseModel.totalCount = data.totalCount;
       this.checkCartAdded();
       this.showLoader = false;
@@ -151,14 +151,13 @@ export class CompareComponent implements OnInit {
       displayName: 'تقييم المنتج',
     },
 
+    // {
+    //   fieldName: 'productUrl',
+    //   fieldType: FieldType.Text,
+    //   displayName: 'رابط المنتج',
+    // },
     {
-      fieldName: 'productUrl',
-      fieldType: FieldType.Text,
-      displayName: 'رابط المنتج',
-    }
-    ,
-    {
-      fieldName: 'supplierName',
+      fieldName: 'merchantName',
       fieldType: FieldType.Text,
       displayName: 'اسم المورد',
     }
@@ -170,7 +169,7 @@ export class CompareComponent implements OnInit {
     // }
     ,
     {
-      fieldName: 'supplierRate',
+      fieldName: 'merchantRate',
       fieldType: FieldType.Text,
       displayName: 'تقييم المورد',
     }

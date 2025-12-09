@@ -94,15 +94,15 @@
                             </div>
                         </td>
                         <td *ngIf="['productUrl'].includes(field.fieldName)" class="bg-white fw-semibold">
-                            <a routerLink="./product-details" [queryParams]="{ItemId:item?.merchantItemId}" class="text-underline">شاهد تفاصيل المنتج</a>
+                            <a routerLink="./product-details" [queryParams]="{ItemId:item?.merchantItemId}" (click)="modal?.dismiss()" class="text-underline">شاهد تفاصيل المنتج</a>
                         </td>
-                        <td *ngIf="field.fieldName == 'supplierName'" class="bg-white fw-semibold">
+                        <td *ngIf="field.fieldName == 'merchantName'" class="bg-white fw-semibold">
 
-                            {{item.supplierName}}
+                            {{item.merchantName}}
                         </td>
                         <td *ngIf="field.fieldName == 'manufacturingCountry'" class="bg-white fw-semibold">مصر</td>
-                        <td *ngIf="['supplierRate'].includes(field.fieldName)" class="bg-white fw-semibold">
-                            <app-rate [value]="item.supplierRate"></app-rate>
+                        <td *ngIf="['merchantRate'].includes(field.fieldName)" class="bg-white fw-semibold">
+                            <app-rate [value]="item.merchantRate"></app-rate>
                         </td>
                         <td *ngIf="field.fieldName == 'deliveryTime'" class="bg-white fw-semibold">
                             {{item.deliveryTime}}
